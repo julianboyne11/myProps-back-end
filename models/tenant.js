@@ -11,7 +11,7 @@ const commentSchema = new Schema({
 const tenantSchema = new Schema({
   manager: { type: Schema.Types.ObjectId, ref: 'Profile' },
   name: { type: String, required: true},
-  lease: {type: String, required: true},
+  lease: { type: String, required: true },
   current: Boolean,
   listing: { type:  Schema.Types.ObjectId, ref: "Listing" },
   comments: [commentSchema],
