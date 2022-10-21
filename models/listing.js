@@ -2,6 +2,25 @@ import mongoose from "mongoose";
 
 const Schema = mongoose.Schema
 
+const workRequestSchema = new Schema(
+  {
+    category: {
+      type: String
+    },
+    urgency: {
+      type: Boolean
+    },
+    details: {
+      type: String
+    },
+    resolution: {
+      type: String,
+      enum: ['Currently Working', 'Completed', 'Now Started']
+    },
+  },
+  {timestamps: true}
+)
+
 const listingSchema = new Schema(
   {
     address: {
