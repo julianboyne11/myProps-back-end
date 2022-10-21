@@ -2,7 +2,7 @@ import { Tenant } from "../models/tenant.js"
 import { Profile } from "../models/profile.js"
 import { Listing } from "../models/listing.js"
 
-const create = async (req ,res) => {
+const create = async (req, res) => {
   try {
     req.body.manager = req.user.profile
     const tenant = await Tenant.create(req.body)
@@ -12,6 +12,7 @@ const create = async (req ,res) => {
       {new: true}
     )
     tenant.manager = profile
+    res.status(201).json(tenant)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
