@@ -7,10 +7,7 @@ import formData from 'express-form-data'
 import { router as profilesRouter } from './routes/profiles.js'
 import { router as authRouter } from './routes/auth.js'
 import { router as listingsRouter} from './routes/listings.js'
-<<<<<<< HEAD
-=======
 import { router as tenantsRouter} from './routes/tenants.js'
->>>>>>> main
 
 import './config/database.js'
 
