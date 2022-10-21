@@ -21,17 +21,19 @@ const create = async (req, res) => {
 
 const update = async (req, res) => {
   try {
-
-
+    const listing = await Listing.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true })
+    res.status(200).json(listing)
   } catch (err) {
-
+    res.status(500).json(err)
   }
 }
 
 const index = async (req, res) => {
   try {
     const listings = await Listing.find({})
-      .populate('owner')
       .sort({ createdAt: 'desc' })
     res.status(200).json(listings)
   } catch (err) {
@@ -41,10 +43,11 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
+    const listing = await Listing.findById(req.params.id)
 
-
+    res.status(200).json(listing)
   } catch (err) {
-
+    res.status(500).json(err)
   }
 }
 
@@ -59,10 +62,13 @@ const addPhoto = async (req, res) => {
 
 const deleteListing = async (req, res) => {
   try {
-
-
+    const listing = await Listing.findByIdAndDelete(req.params.id)
+    const profile = await Profile.findById(req.user.profile)
+    profile.listings.remove({ _id: req.params.id })
+    await profile.save()
+    res.status(200).json(listing)
   } catch (err) {
-
+    res.status(500).json(err)
   }
 }
 
