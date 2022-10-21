@@ -18,7 +18,7 @@ const workRequestSchema = new Schema(
       enum: ['Currently Working', 'Completed', 'Now Started']
     },
   },
-  {timestamps: true}
+  { timestamps: true }
 )
 
 const listingSchema = new Schema(
@@ -38,7 +38,7 @@ const listingSchema = new Schema(
     },
     pictures: {
       type: String,
-      required: true, 
+      // required: true, 
     },
     rent: {
       type: Number,
@@ -51,9 +51,9 @@ const listingSchema = new Schema(
       type: String,
     },
     workRequest: [workRequestSchema],
-    tenant: { type: Schema.Types.ObjectId, ref: 'Tenant'}
+    tenant: { type: Schema.Types.ObjectId, ref: 'Tenant' }
   },
-  {timestamps: true}
+  { timestamps: true }
 )
 
 const Listing = mongoose.model('Listing', listingSchema)
