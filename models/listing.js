@@ -23,6 +23,7 @@ const workRequestSchema = new Schema(
 
 const listingSchema = new Schema(
   {
+    owner: { type: Schema.Types.ObjectId, ref: 'Profile' },
     address: {
       type: String,
       required: true,

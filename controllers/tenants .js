@@ -1,4 +1,4 @@
-import { Listing } from "../models/listing.js";
+import { Tenant } from "../models/tenant.js"
 
 const create = async (req ,res) => {
   try {
@@ -35,16 +35,7 @@ const show = async (req, res) => {
   }
 }
 
-const addPhoto = async (req, res) => {
-  try {
-    
-    
-  } catch (err) {
-    
-  }
-}
-
-const deleteListing = async (req, res) => {
+const deleteTenant = async (req, res) => {
   try {
     
     
@@ -58,7 +49,7 @@ export {
   create,
   show,
   index,
-  deleteListing as delete,
-  addPhoto,
+  deleteTenant as delete,
   update
 }
+

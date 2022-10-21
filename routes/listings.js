@@ -8,8 +8,6 @@ router.use(decodeUserFromToken)
 
 router.get('/', checkAuth, listingsCtrl.index)
 
-router.get('/new', checkAuth, listingsCtrl.new)
-
 router.get('/:id', checkAuth, listingsCtrl.show)
 
 router.post('/', checkAuth, listingsCtrl.create)
