@@ -62,10 +62,13 @@ const addPhoto = async (req, res) => {
 
 const deleteListing = async (req, res) => {
   try {
-
-
+    const listing = await Listing.findByIdAndDelete(req.params.id)
+    const profile = await Profile.findById(req.user.profile)
+    profile.listings.remove({ _id: req.params.id })
+    await profile.save()
+    res.status(200).json(listing)
   } catch (err) {
-
+    res.status(500).json(err)
   }
 }
 
