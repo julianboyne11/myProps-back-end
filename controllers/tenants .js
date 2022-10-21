@@ -8,7 +8,7 @@ const create = async (req ,res) => {
     const tenant = await Tenant.create(req.body)
     const profile = await Profile.findByIdAndUpdate(
       req.user.profile,
-      { $push: { blogs: blog} },
+      { $push: { tenants: tenant} },
       {new: true}
     )
     tenant.manager = profile
