@@ -20,15 +20,6 @@ const create = async (req, res) => {
   }
 }
 
-const update = async (req, res) => {
-  try {
-    
-    
-  } catch (err) {
-    
-  }
-}
-
 const index = async (req, res) => {
   try {
     const tenants = await Tenant.find({})
@@ -51,12 +42,28 @@ const show = async (req, res) => {
   }
 }
 
+const update = async (req, res) => {
+  try {
+    const tenant = await Tenant.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    ).populate('manager')
+    res.status(200).json(tenant)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
 const deleteTenant = async (req, res) => {
   try {
-    
-    
+    const tenant = await Tenant.findByIdAndDelete(req.params.id)
+    const profile = await Profile.findById(req.user.profile)
+    profile.tenants.remove({ _id: req.params.id })
+    await profile.save()
+    res.status(200).json(tenant)
   } catch (err) {
-    
+    res.status(500).json(err)
   }
 }
 
