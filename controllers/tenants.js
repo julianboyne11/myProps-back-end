@@ -32,6 +32,7 @@ const update = async (req, res) => {
 const index = async (req, res) => {
   try {
     const tenants = await Tenant.find({})
+      .populate('manager')
       .sort({ createdAt: 'desc' })
     res.status(200).json(tenants)
   } catch (err) {
@@ -41,10 +42,12 @@ const index = async (req, res) => {
 
 const show = async (req, res) => {
   try {
-    
-    
+    const tenant = await Tenant.findById(req.params.id)
+      .populate('manager')
+    res.status(200).json(tenant)
   } catch (err) {
-    
+    res.status(500).json(err)
+
   }
 }
 
