@@ -31,10 +31,11 @@ const update = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    
-    
+    const tenants = await Tenant.find({})
+      .sort({ createdAt: 'desc' })
+    res.status(200).json(tenants)
   } catch (err) {
-    
+    res.status(500).json(err)
   }
 }
 
