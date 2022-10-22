@@ -1,10 +1,22 @@
 import { Tenant } from "../models/tenant.js"
+import { Profile } from "../models/profile.js"
+import { Listing } from "../models/listing.js"
 
-const create = async (req ,res) => {
+const create = async (req, res) => {
+  console.log('THIS IS REQ.BODY', req.body)
   try {
-    
+    req.body.manager = req.user.profile
+    const tenant = await Tenant.create(req.body)
+    const profile = await Profile.findByIdAndUpdate(
+      req.user.profile,
+      { $push: { tenants: tenant} },
+      {new: true}
+    )
+    tenant.manager = profile
+    res.status(201).json(tenant)
   } catch (error) {
-    
+    console.log(error)
+    res.status(500).json(error)
   }
 }
 
