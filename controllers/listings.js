@@ -1,6 +1,6 @@
 import { Listing } from "../models/listing.js";
 import { Profile } from "../models/profile.js";
-
+import { v2 as cloudinary } from 'cloudinary'
 const create = async (req, res) => {
   try {
     req.body.owner = req.user.profile
@@ -52,12 +52,22 @@ const show = async (req, res) => {
 }
 
 const addPhoto = async (req, res) => {
-  try {
-
-
-  } catch (err) {
-
-  }
+  const imageFile = req.files.picture.path
+  Listing.findById(req.params.id)
+    .then(listing => {
+      cloudinary.uploader.upload(imageFile)
+    })
+    .then(listing => {
+      listing.picture = image.url
+      listing.save()
+        .then(listing => {
+          res.status(201).json(listing.picture)
+        })
+    })
+    .catch(error => {
+      console.log(error)
+      res.status(500).json(error)
+    })
 }
 
 const deleteListing = async (req, res) => {

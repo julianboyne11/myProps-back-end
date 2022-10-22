@@ -36,7 +36,7 @@ const listingSchema = new Schema(
       type: Number,
       enum: ['1', '1.5', '2', '2.5', '3', '3+']
     },
-    pictures: {
+    picture: {
       type: String,
       // required: true, 
     },
