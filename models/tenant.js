@@ -4,6 +4,7 @@ const Schema = mongoose.Schema
 
 const commentSchema = new Schema({
   content: {type: String, required: true},
+  manager: {type: Schema.Types.ObjectId, ref: 'Profile'}
 },{
   timestamps: true,
 })
