@@ -67,12 +67,29 @@ const deleteTenant = async (req, res) => {
   }
 }
 
+const createComment = async (req, res) => {
+  try {
+    req.body.manager = req.user.profile
+    const blog = await Blog.findById(req.params.id)
+    blog.comments.push(req.body)
+    await blog.save()
+    
+    const newComment = blog.comments[blog.comments.length - 1]
+    const profile = await Profile.findById(req.user.profile)
+    newComment.manager = profile
+    res.status(201).json(newComment)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
 
 export {
   create,
   show,
   index,
   deleteTenant as delete,
-  update
+  update,
+  createComment
 }
 

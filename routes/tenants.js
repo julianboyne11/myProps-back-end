@@ -12,6 +12,8 @@ router.get('/:id', checkAuth, tenantCtrl.show)
 
 router.post('/', checkAuth, tenantCtrl.create)
 
+router.post('/:id/comments', checkAuth, tenantsCtrl.createComment)
+
 router.put('/:id', checkAuth, tenantCtrl.update)
 
 router.delete('/:id', checkAuth, tenantCtrl.delete)
