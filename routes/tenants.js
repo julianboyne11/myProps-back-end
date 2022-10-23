@@ -12,7 +12,7 @@ router.get("/:id", checkAuth, tenantCtrl.show);
 
 router.post("/", checkAuth, tenantCtrl.create);
 
-router.post("/:id/comments", checkAuth, tenantsCtrl.createComment);
+router.post("/:id/comments", checkAuth, tenantCtrl.createComment);
 
 router.put("/:id", checkAuth, tenantCtrl.update);
 
