@@ -1,61 +1,61 @@
 import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
 const workRequestSchema = new Schema(
   {
     category: {
-      type: String
+      type: String,
     },
     urgency: {
-      type: Boolean
+      type: Boolean,
     },
     details: {
-      type: String
+      type: String,
     },
     resolution: {
       type: String,
-      enum: ['Currently Working', 'Completed', 'Now Started']
+      enum: ["Currently Working", "Completed", "Now Started"],
     },
   },
   { timestamps: true }
-)
+);
 
 const listingSchema = new Schema(
   {
-    owner: { type: Schema.Types.ObjectId, ref: 'Profile' },
+    owner: { type: Schema.Types.ObjectId, ref: "Profile" },
     address: {
       type: String,
       required: true,
     },
     bedroom: {
       type: Number,
-      enum: ['1', '2', '3', '4', '5', '6']
+      enum: ["1", "2", "3", "4", "5", "6"],
     },
     bathroom: {
       type: Number,
-      enum: ['1', '1.5', '2', '2.5', '3', '3+']
+      enum: ["1", "1.5", "2", "2.5", "3", "3+"],
     },
     picture: {
       type: String,
-      // required: true, 
+      // required: true,
     },
     rent: {
       type: Number,
       required: true,
     },
     pets: {
-      type: [String]
+      type: [String],
     },
     details: {
       type: String,
     },
     workRequest: [workRequestSchema],
-    tenant: { type: Schema.Types.ObjectId, ref: 'Tenant' }
+    tenant: { type: Schema.Types.ObjectId, ref: "Tenant" },
   },
   { timestamps: true }
-)
+);
 
-const Listing = mongoose.model('Listing', listingSchema)
+const Listing = mongoose.model("Listing", listingSchema);
 
-export { Listing }
+export { Listing };
