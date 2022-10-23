@@ -50,7 +50,7 @@ const listingSchema = new Schema(
     details: {
       type: String,
     },
-    workRequest: [workRequestSchema],
+    workRequests: [workRequestSchema],
     tenant: { type: Schema.Types.ObjectId, ref: 'Tenant' }
   },
   { timestamps: true }

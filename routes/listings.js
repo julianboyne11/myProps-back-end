@@ -11,6 +11,7 @@ router.get('/', checkAuth, listingsCtrl.index)
 router.get('/:id', checkAuth, listingsCtrl.show)
 
 router.post('/', checkAuth, listingsCtrl.create)
+router.post('/:id/workRequests', checkAuth, listingsCtrl.createWorkRequest)
 
 router.put('/:id', checkAuth, listingsCtrl.update)
 
