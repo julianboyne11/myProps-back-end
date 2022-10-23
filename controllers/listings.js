@@ -127,5 +127,5 @@ export {
   addPhoto,
   update,
   createWorkRequest,
-  updateWorkRequest
+  updateWorkRequest,
 }
