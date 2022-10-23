@@ -1,16 +1,18 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-const profileSchema = new Schema({
-  name: String,
-  photo: String,
-  listings: [{ type: Schema.Types.ObjectId, ref: 'Listing' }]
-},
+const profileSchema = new Schema(
+  {
+    name: String,
+    photo: String,
+    listings: [{ type: Schema.Types.ObjectId, ref: "Listing" }],
+  },
   {
     timestamps: true,
-  })
+  }
+);
 
-const Profile = mongoose.model('Profile', profileSchema)
+const Profile = mongoose.model("Profile", profileSchema);
 
-export { Profile }
+export { Profile };
