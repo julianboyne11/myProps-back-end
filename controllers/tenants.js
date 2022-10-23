@@ -66,11 +66,11 @@ const deleteTenant = async (req, res) => {
 const createComment = async (req, res) => {
   try {
     req.body.manager = req.user.profile;
-    const blog = await Blog.findById(req.params.id);
-    blog.comments.push(req.body);
-    await blog.save();
+    const tenant = await Tenant.findById(req.params.id);
+    tenant.comments.push(req.body);
+    await tenant.save();
 
-    const newComment = blog.comments[blog.comments.length - 1];
+    const newComment = tenant.comments[tenant.comments.length - 1];
     const profile = await Profile.findById(req.user.profile);
     newComment.manager = profile;
     res.status(201).json(newComment);
