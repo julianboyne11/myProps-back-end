@@ -84,6 +84,7 @@ const deleteListing = async (req, res) => {
 
 const createWorkRequest = async (req, res) => {
   try {
+    // sets the work request to who made it
     req.body.owner = req.user.profile
     const listing = await Listing.findById(req.params.id)
     listing.workRequests.push(req.body)
@@ -102,6 +103,22 @@ const createWorkRequest = async (req, res) => {
   }
 }
 
+const updateWorkRequest = async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id)
+    const workRequest = listing.workRequests.id(req.params.workRequestId)
+    console.log('req.body', req.body)
+    for (let key in req.body) {
+      if (req.body[key] !== '') workRequest[key] = req.body[key]
+    }
+    listing.save()
+    console.log('updated', workRequest)
+    res.status(201).json(workRequest)
+  } catch (err) {
+    res.status(500).json(err)
+  }
+}
+
 export {
   create,
   show,
@@ -109,5 +126,6 @@ export {
   deleteListing as delete,
   addPhoto,
   update,
-  createWorkRequest
+  createWorkRequest,
+  updateWorkRequest
 }
