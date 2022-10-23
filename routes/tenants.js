@@ -1,21 +1,21 @@
 import { Router } from "express";
-import * as tenantCtrl from "../controllers/tenants.js"
-import { decodeUserFromToken, checkAuth } from '../middleware/auth.js'
+import * as tenantsCtrl from "../controllers/tenants.js";
+import { decodeUserFromToken, checkAuth } from "../middleware/auth.js";
 
-const router = Router()
+const router = Router();
 
-router.use(decodeUserFromToken)
+router.use(decodeUserFromToken);
 
-router.get('/', checkAuth, tenantCtrl.index)
+router.get("/", checkAuth, tenantsCtrl.index);
 
-router.get('/:id', checkAuth, tenantCtrl.show)
+router.get("/:id", checkAuth, tenantsCtrl.show);
 
-router.post('/', checkAuth, tenantCtrl.create)
+router.post("/", checkAuth, tenantsCtrl.create);
 
-router.put('/:id', checkAuth, tenantCtrl.update)
+router.post("/:id/comments", checkAuth, tenantsCtrl.createComment);
 
-router.delete('/:id', checkAuth, tenantCtrl.delete)
+router.put("/:id", checkAuth, tenantsCtrl.update);
 
+router.delete("/:id", checkAuth, tenantsCtrl.delete);
 
-
-export { router }
+export { router };
