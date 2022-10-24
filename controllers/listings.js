@@ -53,11 +53,12 @@ const addPhoto = async (req, res) => {
   const imageFile = req.files.picture.path;
   Listing.findById(req.params.id)
     .then((listing) => {
-      cloudinary.uploader.upload(imageFile);
+      cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`});
     })
     .then((listing) => {
       listing.picture = image.url;
-      listing.save().then((listing) => {
+      listing.save()
+      .then((listing) => {
         res.status(201).json(listing.picture);
       });
     })
