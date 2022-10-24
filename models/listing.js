@@ -51,7 +51,7 @@ const listingSchema = new Schema(
       type: String,
     },
     workRequests: [workRequestSchema],
-    tenant: [{ type: Schema.Types.ObjectId, ref: 'Tenant' }]
+    tenants: [{ type: Schema.Types.ObjectId, ref: 'Tenant' }],
   },
   { timestamps: true }
 );
