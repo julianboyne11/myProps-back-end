@@ -1,6 +1,7 @@
 import { Listing } from "../models/listing.js";
 import { Profile } from "../models/profile.js";
 import { v2 as cloudinary } from "cloudinary";
+import { json } from "express";
 
 const create = async (req, res) => {
   try {
@@ -32,7 +33,8 @@ const update = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const listings = await Listing.find({}).sort({ createdAt: "desc" });
+    const listings = await Listing.find({}).sort({ createdAt: "desc" })
+    .populate("tenants")
     res.status(200).json(listings);
   } catch (err) {
     res.status(500).json(err);
@@ -53,11 +55,12 @@ const addPhoto = async (req, res) => {
   const imageFile = req.files.picture.path;
   Listing.findById(req.params.id)
     .then((listing) => {
-      cloudinary.uploader.upload(imageFile);
+      cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`});
     })
     .then((listing) => {
       listing.picture = image.url;
-      listing.save().then((listing) => {
+      listing.save()
+      .then((listing) => {
         res.status(201).json(listing.picture);
       });
     })
@@ -114,7 +117,22 @@ const updateWorkRequest = async (req, res) => {
   } catch (err) {
     res.status(500).json(err);
   }
-};
+}
+
+const addTenantToListing = async (req, res) => {
+  try {
+    console.log(req.body, "this the body");
+    //find the listing
+    // grab the tenants id and push the tenant to the listing
+    const listing = await Listing.findById(req.params.id)
+    const newListing =  listing.tenants.push(req.body.tenantId)
+    await listing.save()
+    console.log("tenants", listing);
+    res.status(200).json(newListing)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
 
 export {
   create,
@@ -125,4 +143,5 @@ export {
   update,
   createWorkRequest,
   updateWorkRequest,
+  addTenantToListing
 }
