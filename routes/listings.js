@@ -13,7 +13,6 @@ router.get("/:id", checkAuth, listingsCtrl.show);
 router.post('/', checkAuth, listingsCtrl.create)
 
 router.post('/:id/workRequests', checkAuth, listingsCtrl.createWorkRequest)
-router.post('/:id/tenants', checkAuth, listingsCtrl.addTenant)
 
 router.post("/:id/tenants", checkAuth, listingsCtrl.addTenantToListing)
 
