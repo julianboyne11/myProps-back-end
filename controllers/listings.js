@@ -79,4 +79,50 @@ const deleteListing = async (req, res) => {
   }
 };
 
-export { create, show, index, deleteListing as delete, addPhoto, update };
+const createWorkRequest = async (req, res) => {
+  try {
+    // sets the work request to who made it
+    req.body.owner = req.user.profile
+    const listing = await Listing.findById(req.params.id)
+    listing.workRequests.push(req.body)
+    await listing.save()
+
+    // Find newly created comment
+    // Not sure if we need this but I'll include it for now
+    const newWorkRequest = listing.workRequests[listing.workRequests.length - 1]
+
+    const profile = await Profile.findById(req.user.profile)
+    newWorkRequest.owner = profile
+
+    res.status(201).json(newWorkRequest)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+const updateWorkRequest = async (req, res) => {
+  try {
+    const listing = await Listing.findById(req.params.id)
+    const workRequest = listing.workRequests.id(req.params.workRequestId)
+    console.log('req.body', req.body)
+    for (let key in req.body) {
+      if (req.body[key] !== '') workRequest[key] = req.body[key]
+    }
+    listing.save()
+    console.log('updated', workRequest)
+    res.status(201).json(workRequest)
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
+export {
+  create,
+  show,
+  index,
+  deleteListing as delete,
+  addPhoto,
+  update,
+  createWorkRequest,
+  updateWorkRequest,
+}
