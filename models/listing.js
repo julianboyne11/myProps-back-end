@@ -29,16 +29,15 @@ const listingSchema = new Schema(
       required: true,
     },
     bedroom: {
-      type: Number,
+      type: String,
       enum: ["1", "2", "3", "4", "5", "6"],
     },
     bathroom: {
-      type: Number,
+      type: String,
       enum: ["1", "1.5", "2", "2.5", "3", "3+"],
     },
     picture: {
       type: String,
-      // required: true,
     },
     rent: {
       type: Number,
