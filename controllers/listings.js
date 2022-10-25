@@ -33,7 +33,7 @@ const update = async (req, res) => {
 
 const index = async (req, res) => {
   try {
-    const listings = await Listing.find({}).sort({ createdAt: "desc" })
+    const listings = await Listing.find({})
       .populate("tenants")
     res.status(200).json(listings);
   } catch (err) {
