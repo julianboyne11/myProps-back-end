@@ -10,6 +10,8 @@ const router = Router()
 /*---------- Protected Routes ----------*/
 router.use(decodeUserFromToken)
 router.get('/', checkAuth, profilesCtrl.index)
+router.get("/:id/listings", checkAuth, profilesCtrl.showMyListing)
+router.get("/:id/tenants", checkAuth, profilesCtrl.showMyTenants)
 router.put('/:id/add-photo', checkAuth, profilesCtrl.addPhoto)
 
 export { router }
