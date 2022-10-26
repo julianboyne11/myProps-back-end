@@ -75,7 +75,9 @@ const deleteListing = async (req, res) => {
   try {
     
     const listing = await Listing.findByIdAndDelete(req.params.id);
+    console.log(listing)
     const profile = await Profile.findById(req.user.profile);
+    console.log(profile)
     profile.listings.remove({ _id: req.params.id });
     await profile.save();
     res.status(200).json(listing);
