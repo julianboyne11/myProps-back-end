@@ -51,24 +51,25 @@ const show = async (req, res) => {
   }
 };
 
-const addPhoto = async (req, res) => {
-  const imageFile = req.files.picture.path;
+function addPhoto(req, res) {
+  const imageFile = req.files.photo.path
   Listing.findById(req.params.id)
-    .then((listing) => {
-      cloudinary.uploader.upload(imageFile, { tags: `${req.user.email}` });
-    })
-    .then((listing) => {
-      listing.picture = image.url;
+  .then(listing => {
+    cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`})
+    
+    .then(image => {
+      listing.photo = image.url
       listing.save()
-        .then((listing) => {
-          res.status(201).json(listing.picture);
-        });
+      .then(listing => {
+        res.status(201).json(listing.photo)
+      })
     })
-    .catch((error) => {
-      console.log(error);
-      res.status(500).json(error);
-    });
-};
+    .catch(err => {
+      console.log(err)
+      res.status(500).json(err)
+    })
+  })
+}
 
 const deleteListing = async (req, res) => {
   try {
@@ -84,14 +85,15 @@ const deleteListing = async (req, res) => {
 
 const createWorkRequest = async (req, res) => {
   try {
-    // sets the work request to who made it
-    req.body.owner = req.user.profile
-    const listing = await Listing.findById(req.params.id)
-    listing.workRequests.push(req.body)
-    await listing.save()
 
-    // Find newly created comment
-    // Not sure if we need this but I'll include it for now
+    req.body.owner = req.user.profile
+
+    const listing = await Listing.findById(req.params.id)
+
+    listing.workRequests.push(req.body)
+
+    listing.save()
+
     const newWorkRequest = listing.workRequests[listing.workRequests.length - 1]
 
     const profile = await Profile.findById(req.user.profile)
