@@ -54,7 +54,9 @@ const update = async (req, res) => {
 const deleteTenant = async (req, res) => {
   try {
     const tenant = await Tenant.findByIdAndDelete(req.params.id);
+    console.log(tenant, "this is tenant");
     const profile = await Profile.findById(req.user.profile);
+    console.log(profile, "this is profile");
     profile.tenants.remove({ _id: req.params.id });
     await profile.save();
     res.status(200).json(tenant);
