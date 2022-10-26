@@ -18,7 +18,7 @@ router.post("/:id/tenants", checkAuth, listingsCtrl.addTenantToListing)
 
 router.put('/:id', checkAuth, listingsCtrl.update)
 
-router.put('/:id/workRequests/workRequestId', checkAuth, listingsCtrl.updateWorkRequest)
+router.put('/:id/workRequests/:workRequestId', checkAuth, listingsCtrl.updateWorkRequest)
 
 router.put('/:id/add-photo', checkAuth, listingsCtrl.addPhoto)
 
