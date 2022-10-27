@@ -1,7 +1,7 @@
 import { Listing } from "../models/listing.js";
 import { Profile } from "../models/profile.js";
 import { v2 as cloudinary } from "cloudinary";
-import { json } from "express";
+
 
 const create = async (req, res) => {
   try {
@@ -101,7 +101,7 @@ function addPhoto(req, res) {
 
 const deleteListing = async (req, res) => {
   try {
-    
+
     const listing = await Listing.findByIdAndDelete(req.params.id);
     console.log(listing)
     const profile = await Profile.findById(req.user.profile);
@@ -130,7 +130,7 @@ const createWorkRequest = async (req, res) => {
     const profile = await Profile.findById(req.user.profile)
     newWorkRequest.owner = profile
 
-    res.status(201).json(newWorkRequest)
+    res.status(201).json(listing)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -144,7 +144,7 @@ const updateWorkRequest = async (req, res) => {
       if (req.body[key] !== '') workRequest[key] = req.body[key]
     }
     listing.save()
-    res.status(201).json(workRequest)
+    res.status(201).json(listing)
   } catch (err) {
     res.status(500).json(err);
   }
