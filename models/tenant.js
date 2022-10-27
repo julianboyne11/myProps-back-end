@@ -21,9 +21,8 @@ const tenantSchema = new Schema(
     current: Boolean,
     listing: { type: Schema.Types.ObjectId, ref: "Listing" },
     comments: [commentSchema],
-    job: { type: String, required: true },
     contact: Number,
-    jobs: {type: String},
+    jobs: [{type: String}],
   },
   {
     timestamps: true,
