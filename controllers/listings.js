@@ -70,8 +70,8 @@ async function addPhoto(req, res) {
     const saveListing = listing.save()
     res.status(201).json(saveListing.photos)   
   } catch (error) {
-    console.log(err)
-    res.status(500).json(err)
+    console.log(error)
+    res.status(500).json(error)
   }
 }
 
@@ -135,13 +135,29 @@ const addTenantToListing = async (req, res) => {
     // grab the tenants id and push the tenant to the listing
     const listing = await Listing.findById(req.params.id)
     const newListing = listing.tenants.push(req.body.tenantId)
-    await listing.save()
+    listing.save()
     console.log("tenants", listing);
     res.status(200).json(newListing)
   } catch (error) {
     res.status(500).json(error)
   }
 }
+
+const removeTenant = async (req, res) => {
+  try {
+    console.log(req.body, "this the body");
+    //find the listing
+    // grab the tenants id and push the tenant to the listing
+    const listing = await Listing.findById(req.params.id)
+    const newListing = listing.tenants.splice(req.body.tenantId)
+    listing.save()
+    console.log("tenants", listing);
+    res.status(200).json(newListing)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
 
 export {
   create,
@@ -152,5 +168,6 @@ export {
   update,
   createWorkRequest,
   updateWorkRequest,
-  addTenantToListing
+  addTenantToListing,
+  removeTenant
 }
