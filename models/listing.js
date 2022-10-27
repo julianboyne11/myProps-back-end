@@ -7,9 +7,6 @@ const workRequestSchema = new Schema(
     category: {
       type: String,
     },
-    urgency: {
-      type: Boolean,
-    },
     details: {
       type: String,
     },
