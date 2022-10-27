@@ -52,30 +52,51 @@ const show = async (req, res) => {
   }
 };
 
-async function addPhoto(req, res) {
-  // const imageFile = req.files.photo.path
-  try {
-    const listing = await Listing.findById(req.params.id)
-    // finding listing by Id, goes onto listing
-    // uploading photos
-    for await (const photo of req.files.photos) {
-      // grabbing each photo out of req.files.photos
-      const imageFile = photo.path
-      // couldinary needs path of photo, putting path in imageFile
-      const image = await cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`})
-      // uploading imageFile
-      listing.photos.push(image.url)
-      // grabbing url from image, putting it in listing photos array
-    }
-    const saveListing = listing.save()
-    res.status(201).json(saveListing.photos)   
-  } catch (error) {
-    console.log(err)
-    res.status(500).json(err)
-  }
+function addPhoto(req, res) {
+  console.log(req.files, 'FILES')
+  const imageFile = req.files.photo.path;
+  console.log('HIT', imageFile)
+  Listing.findById(req.params.id)
+  .then((listing) => {
+    console.log('LISTING', listing)
+    cloudinary.uploader
+      .upload(imageFile, { tags: `${req.user.email}` })
+      .then((image) => {
+        console.log(image, "IMAGE")
+        listing.photo = image.url;
+        listing.save().then((listing) => {
+          res.status(201).json(listing.photo);
+        });
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 }
 
-    
+// async function addPhoto(req, res) {
+//   // const imageFile = req.files.photo.path
+//   try {
+//     const listing = await Listing.findById(req.params.id)
+//     // finding listing by Id, goes onto listing
+//     // uploading photos
+//     for await (const photo of req.files.photos) {
+//       // grabbing each photo out of req.files.photos
+//       const imageFile = photo.path
+//       // couldinary needs path of photo, putting path in imageFile
+//       const image = await cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`})
+//       // uploading imageFile
+//       listing.photos.push(image.url)
+//       // grabbing url from image, putting it in listing photos array
+//     }
+//     const saveListing = listing.save()
+//     res.status(201).json(saveListing.photos)   
+//   } catch (error) {
+//     console.log(err)
+//     res.status(500).json(err)
+//   }
+// }
 
 const deleteListing = async (req, res) => {
   try {

@@ -36,8 +36,8 @@ const listingSchema = new Schema(
       type: String,
       enum: ["1", "1.5", "2", "2.5", "3", "3+"],
     },
-    photos: {
-      type: [String]
+    photo: {
+      type: String
     },
     rent: {
       type: Number,
