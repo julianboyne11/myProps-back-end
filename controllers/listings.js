@@ -108,7 +108,7 @@ const createWorkRequest = async (req, res) => {
     const profile = await Profile.findById(req.user.profile)
     newWorkRequest.owner = profile
 
-    res.status(201).json(newWorkRequest)
+    res.status(201).json(listing)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -122,7 +122,7 @@ const updateWorkRequest = async (req, res) => {
       if (req.body[key] !== '') workRequest[key] = req.body[key]
     }
     listing.save()
-    res.status(201).json(workRequest)
+    res.status(201).json(listing)
   } catch (err) {
     res.status(500).json(err);
   }
