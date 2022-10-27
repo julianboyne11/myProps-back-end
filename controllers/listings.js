@@ -149,7 +149,7 @@ const removeTenant = async (req, res) => {
     //find the listing
     // grab the tenants id and push the tenant to the listing
     const listing = await Listing.findById(req.params.id)
-    const newListing = listing.tenants.splice(req.body.tenantId)
+    const newListing = listing.tenants.splice(req.params.tenantId, 1)
     listing.save()
     console.log("tenants", listing);
     res.status(200).json(newListing)
