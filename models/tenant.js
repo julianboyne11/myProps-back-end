@@ -22,7 +22,7 @@ const tenantSchema = new Schema(
     listing: { type: Schema.Types.ObjectId, ref: "Listing" },
     comments: [commentSchema],
     contact: Number,
-    jobs: {type: String},
+    jobs: [{type: String}],
   },
   {
     timestamps: true,
