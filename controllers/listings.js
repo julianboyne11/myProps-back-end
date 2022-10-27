@@ -1,7 +1,7 @@
 import { Listing } from "../models/listing.js";
 import { Profile } from "../models/profile.js";
 import { v2 as cloudinary } from "cloudinary";
-import { json } from "express";
+
 
 const create = async (req, res) => {
   try {
@@ -62,24 +62,24 @@ async function addPhoto(req, res) {
       // grabbing each photo out of req.files.photos
       const imageFile = photo.path
       // couldinary needs path of photo, putting path in imageFile
-      const image = await cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`})
+      const image = await cloudinary.uploader.upload(imageFile, { tags: `${req.user.email}` })
       // uploading imageFile
       listing.photos.push(image.url)
       // grabbing url from image, putting it in listing photos array
     }
     const saveListing = listing.save()
-    res.status(201).json(saveListing.photos)   
+    res.status(201).json(saveListing.photos)
   } catch (error) {
     console.log(error)
     res.status(500).json(error)
   }
 }
 
-    
+
 
 const deleteListing = async (req, res) => {
   try {
-    
+
     const listing = await Listing.findByIdAndDelete(req.params.id);
     console.log(listing)
     const profile = await Profile.findById(req.user.profile);
@@ -136,8 +136,9 @@ const addTenantToListing = async (req, res) => {
     const listing = await Listing.findById(req.params.id)
     const newListing = listing.tenants.push(req.body.tenantId)
     listing.save()
-    console.log("tenants", listing);
-    res.status(200).json(newListing)
+    const populatedListing = await listing.populate("tenants")
+    console.log("tenants", populatedListing);
+    res.status(200).json(populatedListing)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -152,7 +153,8 @@ const removeTenant = async (req, res) => {
     const newListing = listing.tenants.splice(req.params.tenantId, 1)
     listing.save()
     console.log("tenants", listing);
-    res.status(200).json(newListing)
+    const populatedListing = await listing.populate("tenants")
+    res.status(200).json(populatedListing)
   } catch (error) {
     res.status(500).json(error)
   }
