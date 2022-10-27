@@ -136,8 +136,9 @@ const addTenantToListing = async (req, res) => {
     const listing = await Listing.findById(req.params.id)
     const newListing = listing.tenants.push(req.body.tenantId)
     listing.save()
-    console.log("tenants", listing);
-    res.status(200).json(newListing)
+    const populatedListing = await listing.populate("tenants")
+    console.log("tenants", populatedListing);
+    res.status(200).json(populatedListing)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -152,7 +153,8 @@ const removeTenant = async (req, res) => {
     const newListing = listing.tenants.splice(req.params.tenantId, 1)
     listing.save()
     console.log("tenants", listing);
-    res.status(200).json(newListing)
+    const populatedListing = await listing.populate("tenants")
+    res.status(200).json(populatedListing)
   } catch (error) {
     res.status(500).json(error)
   }
