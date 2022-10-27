@@ -22,7 +22,8 @@ router.put('/:id/workRequests/:workRequestId', checkAuth, listingsCtrl.updateWor
 
 router.put('/:id/add-photo', checkAuth, listingsCtrl.addPhoto)
 
-router.delete('/:id', checkAuth, listingsCtrl.delete)
+router.put("/:id/tenants", checkAuth, listingsCtrl.removeTenant)
 
+router.delete('/:id', checkAuth, listingsCtrl.delete)
 
 export { router };

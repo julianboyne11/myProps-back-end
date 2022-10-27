@@ -36,6 +36,7 @@ function showMyListing(req, res) {
     Profile.findById(req.params.id)
       .then((profile) => {
         Listing.find({ owner: profile._id })
+          .populate("tenants")
           .then((listing) => {
             res.status(200).json(listing);
           })

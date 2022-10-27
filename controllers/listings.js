@@ -6,6 +6,7 @@ import { json } from "express";
 const create = async (req, res) => {
   try {
     req.body.owner = req.user.profile;
+    console.log(req.body)
     const listing = await Listing.create(req.body);
     const profile = await Profile.findByIdAndUpdate(
       req.user.profile,
@@ -51,31 +52,38 @@ const show = async (req, res) => {
   }
 };
 
-function addPhoto(req, res) {
-  const imageFile = req.files.photo.path
-  Listing.findById(req.params.id)
-  .then(listing => {
-    cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`})
-    
-    .then(image => {
-      listing.photo = image.url
-      listing.save()
-      .then(listing => {
-        res.status(201).json(listing.photo)
-      })
-    })
-    .catch(err => {
-      console.log(err)
-      res.status(500).json(err)
-    })
-  })
+async function addPhoto(req, res) {
+  // const imageFile = req.files.photo.path
+  try {
+    const listing = await Listing.findById(req.params.id)
+    // finding listing by Id, goes onto listing
+    // uploading photos
+    for await (const photo of req.files.photos) {
+      // grabbing each photo out of req.files.photos
+      const imageFile = photo.path
+      // couldinary needs path of photo, putting path in imageFile
+      const image = await cloudinary.uploader.upload(imageFile, {tags: `${req.user.email}`})
+      // uploading imageFile
+      listing.photos.push(image.url)
+      // grabbing url from image, putting it in listing photos array
+    }
+    const saveListing = listing.save()
+    res.status(201).json(saveListing.photos)   
+  } catch (error) {
+    console.log(error)
+    res.status(500).json(error)
+  }
 }
+
+    
 
 const deleteListing = async (req, res) => {
   try {
     
     const listing = await Listing.findByIdAndDelete(req.params.id);
+    console.log(listing)
     const profile = await Profile.findById(req.user.profile);
+    console.log(profile)
     profile.listings.remove({ _id: req.params.id });
     await profile.save();
     res.status(200).json(listing);
@@ -127,13 +135,29 @@ const addTenantToListing = async (req, res) => {
     // grab the tenants id and push the tenant to the listing
     const listing = await Listing.findById(req.params.id)
     const newListing = listing.tenants.push(req.body.tenantId)
-    await listing.save()
+    listing.save()
     console.log("tenants", listing);
     res.status(200).json(newListing)
   } catch (error) {
     res.status(500).json(error)
   }
 }
+
+const removeTenant = async (req, res) => {
+  try {
+    console.log(req.body, "this the body");
+    //find the listing
+    // grab the tenants id and push the tenant to the listing
+    const listing = await Listing.findById(req.params.id)
+    const newListing = listing.tenants.splice(req.body.tenantId)
+    listing.save()
+    console.log("tenants", listing);
+    res.status(200).json(newListing)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
 
 export {
   create,
@@ -144,5 +168,6 @@ export {
   update,
   createWorkRequest,
   updateWorkRequest,
-  addTenantToListing
+  addTenantToListing,
+  removeTenant
 }
