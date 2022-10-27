@@ -38,7 +38,7 @@ function login(req, res) {
           const token = createJWT(user);
           res.json({ token });
         } else {
-          res.status(401).json({ err: "Incorrect password" });
+          res.status(401).json({ err: "Incorrect password or Email" });
         }
       });
     })
