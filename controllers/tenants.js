@@ -3,7 +3,6 @@ import { Profile } from "../models/profile.js";
 import { Listing } from "../models/listing.js";
 
 const create = async (req, res) => {
-  console.log("THIS IS REQ.BODY", req.body);
   try {
     req.body.manager = req.user.profile;
     const tenant = await Tenant.create(req.body);
@@ -81,4 +80,11 @@ const createComment = async (req, res) => {
   }
 };
 
-export { create, show, index, deleteTenant as delete, update, createComment };
+export {
+  create,
+  show,
+  index,
+  deleteTenant as delete,
+  update,
+  createComment
+};
