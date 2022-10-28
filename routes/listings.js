@@ -26,4 +26,6 @@ router.put("/:id/tenants", checkAuth, listingsCtrl.removeTenant)
 
 router.delete('/:id', checkAuth, listingsCtrl.delete)
 
-export { router };
+export {
+  router
+};

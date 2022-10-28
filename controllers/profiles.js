@@ -15,20 +15,20 @@ function index(req, res) {
 function addPhoto(req, res) {
   const imageFile = req.files.photo.path;
   Profile.findById(req.params.id)
-  .then((profile) => {
-    cloudinary.uploader
-      .upload(imageFile, { tags: `${req.user.email}` })
-      .then((image) => {
-        profile.photo = image.url;
-        profile.save().then((profile) => {
-          res.status(201).json(profile.photo);
+    .then((profile) => {
+      cloudinary.uploader
+        .upload(imageFile, { tags: `${req.user.email}` })
+        .then((image) => {
+          profile.photo = image.url;
+          profile.save().then((profile) => {
+            res.status(201).json(profile.photo);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
-  });
+    });
 }
 
 function showMyListing(req, res) {
@@ -72,4 +72,9 @@ function showMyTenants(req, res) {
   });
 }
 
-export { index, addPhoto, showMyListing, showMyTenants };
+export {
+  index,
+  addPhoto,
+  showMyListing,
+  showMyTenants
+};

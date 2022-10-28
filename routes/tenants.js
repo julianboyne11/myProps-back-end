@@ -18,4 +18,6 @@ router.put("/:id", checkAuth, tenantsCtrl.update);
 
 router.delete("/:id", checkAuth, tenantsCtrl.delete);
 
-export { router };
+export {
+  router
+};
