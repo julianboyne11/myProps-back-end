@@ -1,11 +1,12 @@
-# fly.toml file generated for myprops on 2022-10-27T14:15:40-04:00
+# fly.toml file generated for rimoni-property-manage on 2022-11-01T08:51:47-04:00
 
-app = "myprops"
+app = "rimoni-property-manage"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
+  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
